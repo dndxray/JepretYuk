@@ -8,20 +8,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-        <Route
-          path="/choose-frame"
-          element={<FrameSelection />}
-        />
-
-        <Route
-          path="/camera"
-          element={<Camera />}
-        />
+        <Route path="/" element={<Home />} />
+        <Route path="/choose-frame" element={<FrameSelection />} />
+        <Route path="/camera" element={<Camera />} />
       </Routes>
     </BrowserRouter>
   );

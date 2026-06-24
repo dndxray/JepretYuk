@@ -4,8 +4,7 @@
   box-sizing: border-box;
 }
 
-html,
-body,
+html,body,
 #root {
   
   width: 100%;
@@ -23,8 +22,6 @@ a {
   color: inherit;
 }
 
-button,
-input,
-select {
+button,input,select {
   font-family: inherit;
 }

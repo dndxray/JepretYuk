@@ -13,8 +13,6 @@ import wonyoung3 from "../assets/idols/wonyoung/fotowonyoung3.png";
 import wonyoung4 from "../assets/idols/wonyoung/fotowonyoung4.png";
 
 function Camera() {
-
-
     const navigate = useNavigate();
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
@@ -22,12 +20,10 @@ function Camera() {
 
     const TOTAL_PHOTOS = 4;
 
-
     const [photos, setPhotos] = useState([]);
     const [currentPhoto, setCurrentPhoto] = useState(1);
     const [capturedPhoto, setCapturedPhoto] = useState(null);
-    const selectedFrame =
-        localStorage.getItem("selectedFrame");
+    const selectedFrame = localStorage.getItem("selectedFrame");
 
     const idolPhotos = {
     framekarina: [
@@ -44,17 +40,13 @@ function Camera() {
         wonyoung4,
     ],
     };
-    const currentIdolPhoto =
-        idolPhotos[selectedFrame]?.[
-        photos.length
-    ];
+    const currentIdolPhoto =idolPhotos[selectedFrame]?.[photos.length];
 
     useEffect(() => {
         const startCamera = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: false,
+            video: true, audio: false,
         });
 
         if (videoRef.current) {
@@ -88,7 +80,7 @@ function Camera() {
 
     ctx.clearRect(0, 0, width, height);
 
-    // mirror selfie
+    // mirror
     ctx.save();
 
     ctx.scale(-1, 1);
@@ -158,8 +150,6 @@ function Camera() {
             Foto {currentPhoto} dari {TOTAL_PHOTOS}
         </h2>
         )}
-
-        {/* Kamera selalu tampil */}
         {photos.length < TOTAL_PHOTOS && (
         <>
             <div className="camera-container">
@@ -198,7 +188,6 @@ function Camera() {
         </>
         )}
 
-        {/* Preview */}
         {capturedPhoto && (
         <div className="complete-box">
             <h2>Preview Foto</h2>
@@ -226,7 +215,6 @@ function Camera() {
         </div>
       )}
 
-        {/* Foto yang sudah disimpan */}
         <div className="photo-grid">
         {photos.map((photo, index) => (
             <div
