@@ -1,10 +1,12 @@
 .camera-page {
     min-height: 100vh;
-    padding: 30px 20px;
+    padding: 20px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    text-align: center;
 
     background: linear-gradient(
         135deg,
@@ -18,23 +20,11 @@
     margin-bottom: 20px;
 }
 
-.controls {
-    width: 100%;
-    max-width: 500px;
-}
-
-.slider-group {
-    margin-bottom: 15px;
-}
-
-.slider-group input {
-    width: 100%;
-}
-
 .camera-container {
     position: relative;
-    width: 100%;
-    max-width: 500px;
+    width: 500px;
+    max-width: 100%;
+    margin: 20px auto;
 
     border-radius: 20px;
     overflow: hidden;
@@ -47,114 +37,9 @@
 .camera-video {
     width: 100%;
     display: block;
-}
 
-.template-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    pointer-events: none;
-    z-index: 999;
-}
-
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.btn {
-    padding: 12px 20px;
-
-    border: none;
-    border-radius: 999px;
-
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.btn-primary {
-    background: #ff8fc7;
-    color: white;
-}
-
-.btn-secondary {
-    background: white;
-    color: #333;
-}
-
-.photo-counter {
-    margin-top: 15px;
-    font-weight: 600;
-}
-
-.photo-grid {
-    margin-top: 25px;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-}
-
-.photo-card {
-    background: white;
-    padding: 10px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.photo-card img {
-    width: 180px;
-    border-radius: 10px;
-}
-
-.complete-box {
-    margin-top: 25px;
-    text-align: center;
-}
-
-.generate-btn {
-    padding: 12px 24px;
-
-    border: none;
-    border-radius: 999px;
-
-    background: #ff8fc7;
-    color: white;
-
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .photo-card img {
-        width: 130px;
-    }
-}
-
-.camera-page {
-    padding: 20px;
-    text-align: center;
-}
-
-.camera-title {
-    margin-bottom: 20px;
-}
-
-.camera-container {
-    position: relative;
-    width: 500px;
-    max-width: 100%;
-    margin: 20px auto;
-}
-
-.camera-video {
-    width: 100%;
-    display: block;
     border-radius: 20px;
+
     transform: scaleX(-1);
 }
 
@@ -182,14 +67,15 @@
 }
 
 .btn {
+    padding: 12px 20px;
+
     border: none;
     border-radius: 10px;
-
-    padding: 12px 20px;
 
     cursor: pointer;
 
     font-size: 15px;
+    font-weight: 600;
 }
 
 .btn-primary {
@@ -200,6 +86,11 @@
 .btn-secondary {
     background: #ececec;
     color: #333;
+}
+
+.photo-counter {
+    margin-top: 15px;
+    font-weight: 600;
 }
 
 .photo-grid {
@@ -213,29 +104,40 @@
 
 .photo-card {
     width: 180px;
+
+    background: white;
+    padding: 10px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .photo-card img {
     width: 100%;
+
     border-radius: 12px;
 }
 
 .complete-box {
     margin-top: 30px;
+    text-align: center;
 }
 
 .preview-image {
     width: 100%;
     max-width: 400px;
-    border-radius: 15px;
+
     margin-top: 15px;
+
+    border-radius: 15px;
 }
 
 .generate-btn {
+    padding: 14px 25px;
+
     border: none;
     border-radius: 12px;
-
-    padding: 14px 25px;
 
     background: #ff8fc7;
     color: white;
@@ -245,10 +147,12 @@
     font-size: 16px;
 }
 
-.photo-counter {
-    margin-top: 15px;
-}
-
 .hidden-canvas {
     display: none;
+}
+
+@media (max-width: 768px) {
+    .photo-card img {
+        width: 130px;
+    }
 }

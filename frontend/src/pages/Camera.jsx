@@ -23,43 +23,34 @@ function Camera() {
     const [photos, setPhotos] = useState([]);
     const [currentPhoto, setCurrentPhoto] = useState(1);
     const [capturedPhoto, setCapturedPhoto] = useState(null);
+
     const selectedFrame = localStorage.getItem("selectedFrame");
 
     const idolPhotos = {
-    framekarina: [
-        karina1,
-        karina2,
-        karina3,
-        karina4,
-    ],
-
-    framewonyoung: [
-        wonyoung1,
-        wonyoung2,
-        wonyoung3,
-        wonyoung4,
-    ],
+        framekarina: [karina1, karina2, karina3, karina4],
+        framewonyoung: [wonyoung1, wonyoung2, wonyoung3, wonyoung4],
     };
-    const currentIdolPhoto =idolPhotos[selectedFrame]?.[photos.length];
+
+    const currentIdolPhoto = idolPhotos[selectedFrame]?.[photos.length];
 
     useEffect(() => {
         const startCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-            video: true, audio: false,
-        });
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false,
+                });
 
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-        } 
-        catch (error) {
-            console.error("Camera Error:", error);
-        }
-    };
+                if (videoRef.current) {
+                    videoRef.current.srcObject = stream;
+                }
+            } catch (error) {
+                console.error("Camera Error:", error);
+            }
+        };
 
-    startCamera();
-     }, []);
+        startCamera();
+    }, []);
 
     const takePhoto = () => {
         const video = videoRef.current;
@@ -68,45 +59,27 @@ function Camera() {
 
         if (!video || !canvas || !template) return;
 
-    const width = video.videoWidth;
-    const height = video.videoHeight;
+        const width = video.videoWidth;
+        const height = video.videoHeight;
 
-    if (!width || !height) return;
+        if (!width || !height) return;
 
-    canvas.width = width;
-    canvas.height = height;
+        canvas.width = width;
+        canvas.height = height;
 
-    const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
 
-    ctx.clearRect(0, 0, width, height);
+        ctx.clearRect(0, 0, width, height);
 
-    // mirror
-    ctx.save();
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, -width, 0, width, height);
+        ctx.restore();
 
-    ctx.scale(-1, 1);
+        ctx.drawImage(template, 0, 0, width, height);
 
-    ctx.drawImage(
-        video,
-        -width,
-        0,
-        width,
-        height
-    );
-
-    ctx.restore();
-
-    // overlay idol
-    ctx.drawImage(
-        template,
-        0,
-        0,
-        width,
-        height
-    );
-
-    const imageData = canvas.toDataURL("image/png");
-
-    setCapturedPhoto(imageData);
+        const imageData = canvas.toDataURL("image/png");
+        setCapturedPhoto(imageData);
     };
 
     const usePhoto = () => {
@@ -117,14 +90,12 @@ function Camera() {
         setPhotos(newPhotos);
         setCapturedPhoto(null);
 
-    if (newPhotos.length < TOTAL_PHOTOS) {
-        setCurrentPhoto(newPhotos.length + 1);
-    }
+        if (newPhotos.length < TOTAL_PHOTOS) {
+            setCurrentPhoto(newPhotos.length + 1);
+        }
     };
 
-    const retakePhoto = () => {
-        setCapturedPhoto(null);
-    };
+    const retakePhoto = () => setCapturedPhoto(null);
 
     const resetPhotos = () => {
         setPhotos([]);
@@ -133,123 +104,94 @@ function Camera() {
     };
 
     const goNext = () => {
-        localStorage.setItem(
-        "photos",
-        JSON.stringify(photos)
-    );
-
-    navigate("/result");
+        localStorage.setItem("photos", JSON.stringify(photos));
+        navigate("/result");
     };
 
     return (
-    <div className="camera-page">
-        <h1 className="camera-title">Photobooth</h1>
+        <div className="camera-page">
+            <h1 className="camera-title">Photobooth</h1>
 
-        {photos.length < TOTAL_PHOTOS && (
-        <h2>
-            Foto {currentPhoto} dari {TOTAL_PHOTOS}
-        </h2>
-        )}
-        {photos.length < TOTAL_PHOTOS && (
-        <>
-            <div className="camera-container">
-            <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                className="camera-video"
-            />
-
-            <img
-                ref={templateRef}
-                src={currentIdolPhoto}
-                alt="Idol"
-                className="template-overlay"
-            />
-            </div>
-
-            {!capturedPhoto && (
-            <div className="button-group">
-                <button
-                className="btn btn-primary"
-                onClick={takePhoto}
-                >
-                Take Photo 📸
-                </button>
-
-                <button
-                className="btn btn-secondary"
-                onClick={resetPhotos}
-                >
-                Reset
-                </button>
-            </div>
+            {photos.length < TOTAL_PHOTOS && (
+                <h2>Foto {currentPhoto} dari {TOTAL_PHOTOS}</h2>
             )}
-        </>
-        )}
 
-        {capturedPhoto && (
-        <div className="complete-box">
-            <h2>Preview Foto</h2>
+            {photos.length < TOTAL_PHOTOS && (
+                <>
+                    <div className="camera-container">
+                        <video
+                            ref={videoRef}
+                            autoPlay
+                            playsInline
+                            className="camera-video"
+                        />
 
-            <img
-            src={capturedPhoto}
-            alt="preview"
-            className="preview-image"
-            />
+                        <img
+                            ref={templateRef}
+                            src={currentIdolPhoto}
+                            alt="Idol"
+                            className="template-overlay"
+                        />
+                    </div>
 
-            <div className="button-group">
-            <button
-                className="btn btn-secondary"
-                onClick={retakePhoto}
-            >
-                Retake
-            </button>
+                    {!capturedPhoto && (
+                        <div className="button-group">
+                            <button className="btn btn-primary" onClick={takePhoto}>
+                                Take Photo 📸
+                            </button>
 
-            <button
-                className="btn btn-primary"
-                onClick={usePhoto}>
-                Gunakan Foto
-            </button>
+                            <button className="btn btn-secondary" onClick={resetPhotos}>
+                                Reset
+                            </button>
+                        </div>
+                    )}
+                </>
+            )}
+
+            {capturedPhoto && (
+                <div className="complete-box">
+                    <h2>Preview Foto</h2>
+
+                    <img
+                        src={capturedPhoto}
+                        alt="preview"
+                        className="preview-image"
+                    />
+
+                    <div className="button-group">
+                        <button className="btn btn-secondary" onClick={retakePhoto}>
+                            Retake
+                        </button>
+
+                        <button className="btn btn-primary" onClick={usePhoto}>
+                            Gunakan Foto
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            <div className="photo-grid">
+                {photos.map((photo, index) => (
+                    <div key={index} className="photo-card">
+                        <p>Foto {index + 1}</p>
+                        <img src={photo} alt={`photo-${index}`} />
+                    </div>
+                ))}
             </div>
+
+            {photos.length === TOTAL_PHOTOS && (
+                <div className="complete-box">
+                    <h2>Semua foto sudah diambil</h2>
+
+                    <button className="generate-btn" onClick={goNext}>
+                        Next →
+                    </button>
+                </div>
+            )}
+
+            <canvas ref={canvasRef} className="hidden-canvas" />
         </div>
-      )}
-
-        <div className="photo-grid">
-        {photos.map((photo, index) => (
-            <div
-            key={index}
-            className="photo-card"
-          >
-            <p>Foto {index + 1}</p>
-
-            <img
-                src={photo}
-                alt={`photo-${index}`}
-            />
-            </div>
-        ))}
-        </div>
-
-        {photos.length === TOTAL_PHOTOS && (
-        <div className="complete-box">
-            <h2>Semua foto sudah diambil</h2>
-
-            <button
-            className="generate-btn"
-            onClick={goNext}
-            >
-            Next →
-            </button>
-        </div>
-      )}
-
-      <canvas
-        ref={canvasRef}
-        className="hidden-canvas"
-      />
-    </div>
-  );
+    );
 }
 
 export default Camera;
